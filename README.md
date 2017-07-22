@@ -1,4 +1,4 @@
-# Travis Discord
+# Travis Discord [![Build Status](https://travis-ci.org/MaT1g3R/travis_discord.svg?branch=master)](https://travis-ci.org/MaT1g3R/travis_discord)
 #### Post your Travis CI build results to Discord using Discord webhook
 
 ## Requirements
