@@ -18,29 +18,29 @@ fi
 
 title="${TRAVIS_REPO_SLUG} Travis CI build #${TRAVIS_BUILD_NUMBER} **${noun}**"
 
-res='{"embeds": [{"title": "${title}", "color": ${color}, "description": "${des}", "url": "${BUILD_URL}/${TRAVIS_BUILD_ID}"'
+res="{\"embeds\": [{\"title\": \"${title}\", \"color\": ${color}, \"description\": \"${des}\", \"url\": \"${BUILD_URL}/${TRAVIS_BUILD_ID}\""
 
 fields=""
 if [ ! -z "$TRAVIS_BRANCH" -a "$TRAVIS_BRANCH" != " " ]; then
-  fields+='{"name": "Branch", "value": "${TRAVIS_BRANCH}", "inline": True},'
+  fields+="{\"name\": \"Branch\", \"value\": \"${TRAVIS_BRANCH}\", \"inline\": true},"
 fi
 
 if [ ! -z "$TRAVIS_COMMIT_MESSAGE" -a "$TRAVIS_COMMIT_MESSAGE" != " " ]; then
-  fields+='{"name": "Commit Message", "value": "${TRAVIS_COMMIT_MESSAGE}", "inline": True},'
+  fields+="{\"name\": \"Commit Message\", \"value\": \"${TRAVIS_COMMIT_MESSAGE}\", \"inline\": true},"
 fi
 
 if [ ! -z "$repo" -a "$repo" != " " ]; then
-  fields+='{"name": "Repo", "value": "${repo}", "inline": True},'
+  fields+="{\"name\": \"Repo\", \"value\": \"${repo}\", \"inline\": true},"
 fi
 
 if [ ! -z "$TRAVIS_PULL_REQUEST" -a "$TRAVIS_PULL_REQUEST" != " " -a "$TRAVIS_PULL_REQUEST" != "false" ]; then
-  fields+='{"name": "Pull Request", "value": "${TRAVIS_PULL_REQUEST}", "inline": False},'
+  fields+="{\"name\": \"Pull Request\", \"value\": \"${TRAVIS_PULL_REQUEST}\", \"inline\": false},"
   if [ ! -z "$TRAVIS_PULL_REQUEST_BRANCH" -a "$TRAVIS_PULL_REQUEST_BRANCH" != " " ]; then
-    fields+='{"name", "Pull Request Branch", "value": "", "inline": True},'
+    fields+="{\"name\", \"Pull Request Branch\", \"value\": \"${TRAVIS_PULL_REQUEST_BRANCH}\", \"inline\": true},"
   fi
 
   if [ ! -z "$TRAVIS_PULL_REQUEST_SLUG" -a "$TRAVIS_PULL_REQUEST_SLUG" != " " ]; then
-    fields+='{"name", "Pull Request Repo", "value": "[PR Repo](https://github.com/${TRAVIS_PULL_REQUEST_SLUG})", "inline": True},'
+    fields+="{\"name\", \"Pull Request Repo\", \"value\": \"[PR Repo](https://github.com/${TRAVIS_PULL_REQUEST_SLUG})\", \"inline\": true},"
   fi
 fi
 
@@ -49,7 +49,8 @@ if [[ $fields == *, ]]; then
 fi
 
 if [ ! -z "$fields" -a "$fields" != " " ]; then
-  res+=', "fields": [${fields}]'
+  res+=", \"fields\": [${fields}]"
 fi
 res+="}]}"
-curl -H "Content-Type: application/json" -X POST -d $res $DISCORD_WEBHOOK
+echo $res
+curl -H "Content-Type: application/json" -X POST -d "${res}" $DISCORD_WEBHOOK
