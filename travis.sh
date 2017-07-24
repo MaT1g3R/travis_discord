@@ -52,5 +52,5 @@ if [ ! -z "$fields" -a "$fields" != " " ]; then
   res+=", \"fields\": [${fields}]"
 fi
 res+="}]}"
-echo $res
-curl -H "Content-Type: application/json" -X POST -d "${res}" $DISCORD_WEBHOOK
+echo $res > res.json
+curl -X POST -H "Content-Type: application/json" -d @res.json $DISCORD_WEBHOOK
